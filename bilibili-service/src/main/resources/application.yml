@@ -1,0 +1,9 @@
+# 激活环境
+spring:
+  profiles:
+    active: test
+
+# xml位置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.bilibili.dao

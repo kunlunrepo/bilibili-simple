@@ -1,0 +1,43 @@
+#服务端口
+server:
+  port: 15005
+#数据源
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.10.30:3306/bilibili?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    password: 123456
+    username: workflow
+  # 上传文件
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1GB
+
+#rocketmq
+rocketmq:
+  name:
+    server:
+      address: 192.168.10.30:9876
+#redis
+redis:
+  host: 192.168.10.30
+  port: 6379
+  password: 123456
+  database: 0
+  timeout: 3000
+#fastdfs【暂无】
+fdfs:
+  tracker-list: 192.168.10.30:22122
+  connect-timeout: 600
+  http:
+    storage-addr: http://192.168.10.30:8888/group1/
+#elasticsearch【暂无】
+elasticsearch:
+  url: http://192.168.10.30:9200
+
+
+#日志
+logging:
+  level:
+    com.bilibili: debug
