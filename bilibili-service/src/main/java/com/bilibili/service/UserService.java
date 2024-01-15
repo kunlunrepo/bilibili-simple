@@ -1,6 +1,8 @@
 package com.bilibili.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bilibili.dao.UserDao;
+import com.bilibili.domain.PageResult;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserInfo;
 import com.bilibili.domain.exception.ConditionException;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * description :
@@ -109,4 +113,68 @@ public class UserService {
         return TokenUtil.generateToken(dnUser.getId());
     }
 
+    // 修改用户
+    public void updateUsers(User user) {
+        if(user == null)
+        {
+            throw new ConditionException("参数异常！");
+        }
+        User dnUser = userDao.getUserById(user.getId());
+        if(dnUser == null)
+        {
+            throw new ConditionException("当前用户不存在！");
+        }
+        // 更新用户密码
+        if(StringUtils.isNotEmpty(user.getPassword()))
+        {
+            String resPassword;
+            try {
+                resPassword = RSAUtil.decrypt(user.getPassword());
+                String md5Password = MD5Util.sign(resPassword, dnUser.getSalt(), "UTF-8");
+                user.setPassword(md5Password);
+            } catch (Exception e) {
+                throw new ConditionException("密码解析错误！");
+            }
+        }
+        // 更新时间
+        user.setUpdateTime(new Date());
+        userDao.updateUsers(user);
+    }
+
+    // 修改用户基本信息
+    public void updateUserInfos(UserInfo userInfo) {
+        if(userInfo == null)
+        {
+            throw new ConditionException("参数异常！");
+        }
+        User dnUser = userDao.getUserById(userInfo.getUserId());
+        if(dnUser == null)
+        {
+            throw new ConditionException("当前用户不存在！");
+        }
+        // 更新用户基本信息
+        userInfo.setUpdateTime(new Date());
+        userDao.updateUserInfos(userInfo);
+    }
+
+    // 分页查询用户列表
+    public PageResult<UserInfo> pageListUserInfos(JSONObject params) {
+        Integer no = params.getInteger("no");
+        Integer size = params.getInteger("size");
+        if(no == null || size == null)
+        {
+            throw new ConditionException("参数异常！");
+        }
+        params.put("start", (no - 1) * size);
+        params.put("limit", size);
+        // 查询总数
+        Integer total = userDao.pageCountUserInfos(params);
+        List<UserInfo> list = new ArrayList<>();
+        // 查询列表
+        if(total > 0)
+        {
+            list = userDao.pageListUserInfos(params);
+        }
+        return new PageResult<>(total, list);
+    }
 }
