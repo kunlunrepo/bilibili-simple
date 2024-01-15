@@ -31,6 +31,9 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    UserAuthService userAuthService;
+
     // 新增用户
     @Transactional
     public void addUser(User user)
@@ -70,7 +73,8 @@ public class UserService {
         userInfo.setGender("0");
         userInfo.setCreateTime(now);
         userDao.addUserInfo(userInfo);
-
+        // 添加用户默认权限角色
+        userAuthService.addUserDefaultRole(user.getId());
     }
 
     // 查询用户
