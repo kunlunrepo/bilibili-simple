@@ -37,4 +37,7 @@ public interface UserDao {
     Integer pageCountUserInfos(Map<String, Object> params);
 
     List<UserInfo> pageListUserInfos(JSONObject params);
+
+    // 根据用户编号集合先查询用户基本信息
+    List<UserInfo> getUserInfosByUserIds(List<Long> userIds);
 }

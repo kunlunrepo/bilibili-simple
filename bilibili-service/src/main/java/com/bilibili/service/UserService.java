@@ -181,4 +181,28 @@ public class UserService {
         }
         return new PageResult<>(total, list);
     }
+
+
+    // 根据用户编号查询用户信息
+    public User getUserByUserId(Long userId) {
+        User user = userDao.getUserById(userId);
+        if(user == null)
+        {
+            throw new ConditionException("当前用户不存在！");
+        }
+        return user;
+    }
+
+    // 根据用户编号集合查询用户基本信息集合
+    public List<UserInfo> getUserInfoByUserIds(List<Long> userIds) {
+        List<UserInfo> list = new ArrayList<>();
+        if(userIds == null || userIds.size() == 0)
+        {
+            throw new ConditionException("参数异常！");
+        }
+        list = userDao.getUserInfosByUserIds(userIds);
+        return list;
+    }
+
+
 }

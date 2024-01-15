@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bilibili.dao.FollowingGroupDao">
+
+    <!--根据类型查询一个关注分组信息-->
+    <select id="getFollowingGroupByType" parameterType="java.lang.String" resultType="com.bilibili.domain.FollowingGroup">
+        select
+            *
+        from
+            t_following_groug
+        where
+            `type` = #{type}
+    </select>
+
+    <!--根据编号查询一个关注分组-->
+    <select id="getFollowingGroupById" parameterType="java.lang.Long" resultType="com.bilibili.domain.FollowingGroup">
+        select
+            *
+        from
+            t_following_groug
+        where
+            id = #{id}
+    </select>
+
+    <!--根据用户编号查询分组信息-->
+    <select id="getFollowingGroupsByUserId" parameterType="java.lang.Long" resultType="com.bilibili.domain.FollowingGroup">
+        select
+            *
+        from
+            t_following_groug
+        where
+            userId = #{userId}
+    </select>
+
+    <!--添加关注分组-->
+    <insert id="addFollowingGroup" parameterType="com.bilibili.domain.FollowingGroup">
+        insert into t_following_groug (id, userId, name, type, createTime)
+        values (#{id}, #{userId}, #{name}, #{type}, #{createTime})
+    </insert>
+
+</mapper>

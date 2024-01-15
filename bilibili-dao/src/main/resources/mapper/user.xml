@@ -94,4 +94,12 @@
         limit #{start}, #{limit}
     </select>
 
+    <select id="getUserInfosByUserIds" parameterType="java.lang.Long" resultType="com.bilibili.domain.UserInfo">
+        select *
+        from t_user_info
+        where userId in
+        <foreach collection="userIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>
