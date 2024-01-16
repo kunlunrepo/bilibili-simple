@@ -1,6 +1,7 @@
 package com.bilibili.dao;
 
 import com.bilibili.domain.UserFollowing;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author kunlunrepo
  * date :  2024-01-15 16:17
  */
+@Mapper
 public interface UserFollowingDao {
 
     // 根据用户编号和关注用户编号删除

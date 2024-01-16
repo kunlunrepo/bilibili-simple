@@ -28,7 +28,7 @@
     </select>
 
     <!--根据用户编号查询粉丝-->
-    <select id="getUserFansByUserId" parameterType="java.lang.Long" resultType="com.bilibili.domain.UserFollowing">
+    <select id="getUserFansByFollowingId" parameterType="java.lang.Long" resultType="com.bilibili.domain.UserFollowing">
         select
             *
         from
